@@ -1,5 +1,6 @@
 # borgir
-https://github.com/thatonepuggo/borgir/blob/main/example.png?raw=true
+![./borgir beef beef beef beef beef beef beef beef beef beef](https://raw.githubusercontent.com/thatonepuggo/borgir/main/example.png)
+
 print an ascii borgir in c
 
 ## compile
