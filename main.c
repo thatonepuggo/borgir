@@ -20,7 +20,7 @@ void borgir() {
 #define ISARG(str) (strcmp(argv[i], str) == 0)
 
 int main(int argc, char* argv[]) {
-  if (argc > 0) {
+  if (argc > 1) {
 	for (int i = 0; i < argc; ++i) {
 	  if (ISARG("crown")) {
 		printf(CROWN, ORANGE);
