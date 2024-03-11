@@ -28,3 +28,7 @@ const char BOTTOM[] = \
   "| . ,  .   , . .|\n"
   "|  .  ,   ,    .|\n"
   "'‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾'\n";
+
+const char PLEASE[] = \
+  "please cheese or bees\n"
+  "please burger cheese\n";

@@ -20,7 +20,7 @@ void borgir() {
 #define ISARG(str) (strcmp(argv[i], str) == 0)
 
 int main(int argc, char* argv[]) {
-  if (argc > 1) {
+  if (argc > 0) {
 	for (int i = 0; i < argc; ++i) {
 	  if (ISARG("crown")) {
 		printf(CROWN, ORANGE);
@@ -38,6 +38,8 @@ int main(int argc, char* argv[]) {
 		printf(SAUCE, WHITE);
 	  } else if (ISARG("bottom")) {
 		printf(BOTTOM, ORANGE);
+	  } else if (ISARG("please")) {
+		printf(PLEASE);
 	  } else if (ISARG("borgir")) {
 		borgir();
 	  }

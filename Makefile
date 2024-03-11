@@ -9,3 +9,6 @@ build:
 .PHONY: clean
 clean:
 	rm $(OUTPUT)
+
+install: build
+	install ./$(OUTPUT) /usr/bin/
