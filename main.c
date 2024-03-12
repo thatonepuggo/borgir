@@ -6,78 +6,67 @@
 #include "colors.h"
 #include "ingredients.c"
 
-const char FORMAT[] = "%s%s\n";
+const char FORMAT[] = "%s\n";
 
-#define NUM_FORMATS 10
 #define NUM_INGREDIENTS 11
 
 #define ISARG(x) (strcmp(argv[i], x) == 0)
-#define BUFFER_SIZE 1024
 
 #define DEFAULTS_SIZE 8
 
 typedef struct {
-  char* name;
-  char* value;
-  char* fmt[NUM_FORMATS];
+  const char* name;
+  const char* value;
+  const char* fmt; // only one formatter cuz c is funny and memory allocation is hard
 } Ingredient;
 
 const Ingredient INGREDIENTS[NUM_INGREDIENTS] = {
   {
     .name = "crown",
     .value = CROWN,
-    .fmt = {ORANGE}
   },
   {
     .name = "bottom",
     .value = BOTTOM,
-    .fmt = {ORANGE}
   },
   {
     .name = "lettuce",
     .value = LETTUCE,
-    .fmt = {GREEN}
   },
   {
     .name = "pickles",
     .value = PICKLES,
-    .fmt = {GREEN}
   },
   {
     .name = "cheese",
     .value = CHEESE,
-    .fmt = {YELLOW}
   },
   {
     .name = "beef",
     .value = BEEF,
-    .fmt = {BROWN}
   },
   {
     .name = "ketchup",
     .value = SAUCE,
-    .fmt = {RED}
+    .fmt = RED,
   },
   {
     .name = "mustard",
     .value = SAUCE,
-    .fmt = {YELLOW}
+    .fmt = YELLOW,
   },
   {
-
     .name = "mayo",
     .value = SAUCE,
-    .fmt = {WHITE}
+    .fmt = WHITE,
   },
   {
     .name = "please",
     .value = PLEASE,
-    .fmt = {RESET}
   },
   {
     .name = "cookie",
     .value = COOKIE,
-    .fmt = {DARK_BROWN, TAN, DARK_BROWN, TAN, DARK_BROWN, TAN, DARK_BROWN, TAN}
   },
 };
 
@@ -93,41 +82,54 @@ const char* DEFAULTS[DEFAULTS_SIZE] = {
   "bottom",
 };
 
-void printBorgir(int argc, char* argv[], bool recursiveBorgir) {
-  for (int i = 0; i < argc; ++i) {
+void defaultBorgir(void);
+
+int countFormatters(const char *str) {
+    int count = 0;
+    int i = 0;
+
+    while (str[i] != '\0') {
+        if (str[i] == '%' && str[i + 1] != '%') {
+            count++;
+        }
+        i++;
+    }
+
+    return count;
+}
+
+void printBorgir(int argc, const char* argv[], bool recursiveBorgir) {
+  int startI = 0;
+  if (recursiveBorgir) startI = 1;
+  for (int i = startI; i < argc; ++i) {
     for (int ing = 0; ing < NUM_INGREDIENTS; ++ing) {
       // ingredient
       Ingredient ingredient = INGREDIENTS[ing];
-      if (strcmp(argv[i], ingredient.name) == 0) {
-        // make the buffer
-        char buffer[BUFFER_SIZE];
-        snprintf(buffer, sizeof(buffer), FORMAT, ingredient.fmt[0], ingredient.value);
 
-        // loop through the ingredient formatters and apply them
-        for (int index = 1; index < NUM_FORMATS && ingredient.fmt[index] != NULL; ++index) {
-          char tempBuffer[BUFFER_SIZE];
-          snprintf(tempBuffer, sizeof(tempBuffer), FORMAT, ingredient.fmt[index], ingredient.value);
-          strncat(buffer, tempBuffer, sizeof(buffer) - strlen(buffer) - 1);
+      if (ISARG(ingredient.name)) {
+        if (ingredient.fmt != NULL) {
+          printf("%s%s\n", ingredient.fmt, ingredient.value);
+        } else {
+          printf("%s\n", ingredient.value);
         }
-
-        // print the buffer finally
-        printf(buffer);
         break;
       }
     }
-    if (ISARG("borgir") && recursiveBorgir) borgir();
+
+    // special command that adds the default borgir
+    if (ISARG("borgir") && recursiveBorgir) defaultBorgir();
 
     printf("%s", RESET);
   }
 }
 
-void borgir() { printBorgir(DEFAULTS_SIZE, DEFAULTS, false); }
+void defaultBorgir(void) { printBorgir(DEFAULTS_SIZE, DEFAULTS, false); }
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* argv[]) {
   if (argc > 1) {
     printBorgir(argc, argv, true);
   } else {
-    borgir();
+    defaultBorgir();
   }
 
   return 0;

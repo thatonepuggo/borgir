@@ -1,32 +1,30 @@
-const char CROWN[] = \
+const char CROWN[] = ORANGE
   " ________________\n"
   "/ . ,  .   , . . \\\n"
   "|    .  ,   .   ,|\n"
   "'‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾'";
 
-const char LETTUCE[] = "/\\/\\/\\/\\/\\/\\/\\/\\/";
+const char LETTUCE[] = GREEN "/\\/\\/\\/\\/\\/\\/\\/\\/";
 
-const char PICKLES[] = "o  o o o o  o o";
+const char PICKLES[] = GREEN "o  o o  o o  o o";
 
-const char CHEESE[] = \
+const char CHEESE[] = YELLOW
   "/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\";
 
-const char BEEF[] = \
+const char BEEF[] = BROWN
   "._______________.\n"
   "| . ,  .   , . .|\n"
   "'‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾'";
 
-const char SAUCE[] = \
-  "~~~~~~~~~~~~~~~~~";
+const char SAUCE[] = "~~~~~~~~~~~~~~~~~";
 
-const char BOTTOM[] = \
+const char BOTTOM[] = ORANGE
   "._______________.\n"
   "| . ,  .   , . .|\n"
   "|  .  ,   ,    .|\n"
   "'‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾'";
-
 const char COOKIE[] = \
-  " %s/^\\%s__%s/^\\%s__%s/^\\%s_%s/^\\%s\n"
+  DARK_BROWN " /^\\" TAN "__" DARK_BROWN "/^\\" TAN "__" DARK_BROWN "/^\\" TAN "_" DARK_BROWN "/^\\" TAN "\n"
   "(  . ,  .   , . . )\n"
   " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾";
 
