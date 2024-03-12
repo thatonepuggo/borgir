@@ -1,52 +1,133 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
+
 #include "colors.h"
 #include "ingredients.c"
 
-void borgir() {
-  printf(CROWN, ORANGE);
+const char FORMAT[] = "%s%s\n";
 
-  printf(LETTUCE, GREEN);
-  printf(CHEESE, YELLOW);
-  printf(BEEF, BROWN);
-  printf(SAUCE, RED);
-  printf(SAUCE, YELLOW);
+#define NUM_FORMATS 10
+#define NUM_INGREDIENTS 11
 
-  printf(BOTTOM, ORANGE);
+#define ISARG(x) (strcmp(argv[i], x) == 0)
+#define BUFFER_SIZE 1024
 
-  printf("%s", RESET);
+#define DEFAULTS_SIZE 8
+
+typedef struct {
+  char* name;
+  char* value;
+  char* fmt[NUM_FORMATS];
+} Ingredient;
+
+const Ingredient INGREDIENTS[NUM_INGREDIENTS] = {
+  {
+    .name = "crown",
+    .value = CROWN,
+    .fmt = {ORANGE}
+  },
+  {
+    .name = "bottom",
+    .value = BOTTOM,
+    .fmt = {ORANGE}
+  },
+  {
+    .name = "lettuce",
+    .value = LETTUCE,
+    .fmt = {GREEN}
+  },
+  {
+    .name = "pickles",
+    .value = PICKLES,
+    .fmt = {GREEN}
+  },
+  {
+    .name = "cheese",
+    .value = CHEESE,
+    .fmt = {YELLOW}
+  },
+  {
+    .name = "beef",
+    .value = BEEF,
+    .fmt = {BROWN}
+  },
+  {
+    .name = "ketchup",
+    .value = SAUCE,
+    .fmt = {RED}
+  },
+  {
+    .name = "mustard",
+    .value = SAUCE,
+    .fmt = {YELLOW}
+  },
+  {
+
+    .name = "mayo",
+    .value = SAUCE,
+    .fmt = {WHITE}
+  },
+  {
+    .name = "please",
+    .value = PLEASE,
+    .fmt = {RESET}
+  },
+  {
+    .name = "cookie",
+    .value = COOKIE,
+    .fmt = {DARK_BROWN, TAN, DARK_BROWN, TAN, DARK_BROWN, TAN, DARK_BROWN, TAN}
+  },
+};
+
+
+const char* DEFAULTS[DEFAULTS_SIZE] = {
+  "crown",
+  "lettuce",
+  "pickles",
+  "cheese",
+  "beef",
+  "ketchup",
+  "mustard",
+  "bottom",
+};
+
+void printBorgir(int argc, char* argv[], bool recursiveBorgir) {
+  for (int i = 0; i < argc; ++i) {
+    for (int ing = 0; ing < NUM_INGREDIENTS; ++ing) {
+      // ingredient
+      Ingredient ingredient = INGREDIENTS[ing];
+      if (strcmp(argv[i], ingredient.name) == 0) {
+        // make the buffer
+        char buffer[BUFFER_SIZE];
+        snprintf(buffer, sizeof(buffer), FORMAT, ingredient.fmt[0], ingredient.value);
+
+        // loop through the ingredient formatters and apply them
+        for (int index = 1; index < NUM_FORMATS && ingredient.fmt[index] != NULL; ++index) {
+          char tempBuffer[BUFFER_SIZE];
+          snprintf(tempBuffer, sizeof(tempBuffer), FORMAT, ingredient.fmt[index], ingredient.value);
+          strncat(buffer, tempBuffer, sizeof(buffer) - strlen(buffer) - 1);
+        }
+
+        // print the buffer finally
+        printf(buffer);
+        break;
+      }
+    }
+    if (ISARG("borgir") && recursiveBorgir) borgir();
+
+    printf("%s", RESET);
+  }
 }
 
-#define ISARG(str) (strcmp(argv[i], str) == 0)
+void borgir() { printBorgir(DEFAULTS_SIZE, DEFAULTS, false); }
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {
-	for (int i = 1; i < argc; ++i) {
-	  if (ISARG("crown")) {
-		printf(CROWN, ORANGE);
-	  } else if (ISARG("lettuce")) {
-		printf(LETTUCE, GREEN);
-	  } else if (ISARG("cheese")) {
-		printf(CHEESE, YELLOW);
-      } else if (ISARG("beef")) {
-		printf(BEEF, BROWN);
-	  } else if (ISARG("ketchup")) {
-		printf(SAUCE, RED);
-	  } else if (ISARG("mustard")) {
-		printf(SAUCE, YELLOW);
-	  } else if (ISARG("mayo")) {
-		printf(SAUCE, WHITE);
-	  } else if (ISARG("bottom")) {
-		printf(BOTTOM, ORANGE);
-	  } else if (ISARG("please")) {
-		printf(PLEASE);
-	  } else if (ISARG("borgir")) {
-		borgir();
-	  }
-	  printf("%s", RESET);
-	}
+    printBorgir(argc, argv, true);
   } else {
-	borgir();
+    borgir();
   }
 
   return 0;

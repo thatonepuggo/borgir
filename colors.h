@@ -9,5 +9,7 @@
 #define WHITE "\033[0;37m"
 
 #define BROWN "\033[38:5:166m"
+#define DARK_BROWN "\033[38;2;85;40;0m"
+#define TAN "\033[38;2;255;180;117m"
 
 #define RESET "\033[0m"
