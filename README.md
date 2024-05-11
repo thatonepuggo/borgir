@@ -1,7 +1,7 @@
 # borgir
 ![./borgir beef beef beef beef beef beef beef beef beef beef](https://raw.githubusercontent.com/thatonepuggo/borgir/main/example.png)
 
-print an ascii borgir in c
+ascii borgir in rust
 
 ## compile
-run `make`. it should be easy to compile if ur on windows
+run `cargo build`. it should be easy to compile if ur on windows

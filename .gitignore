@@ -1,1 +1,2 @@
-borgir
+/target
+/Cargo.lock
